@@ -3,8 +3,10 @@ package bigdata.utils;
 import bigdata.algorithms.Algorithms;
 
 public class Constants {
-	public static final String serverBasePath = "D:\\docs\\Master1\\AOSSI\\TimeSeriesPrediction";
+	public static final String serverBasePath = "C:\\Users\\Bogdan\\Documents\\Facultate\\SSA1\\SEM1\\BD\\storage\\results";
 	public static final String basePath = "/TimeSeriesPrediction";
+	public static final String delimiter = "\\";
+	public static final int tokenSize = 7;
 	public static final String tempFolder = serverBasePath + "\\temp";
 	public static final String fileToParse = "parse.txt";
 	public static final String uploadedFile = "uploadedFile";
