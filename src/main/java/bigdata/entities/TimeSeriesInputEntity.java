@@ -2,13 +2,6 @@ package bigdata.entities;
 
 import javax.persistence.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: radu
- * Date: 2/8/16
- * Time: 8:15 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
 @Table(name="prediction_results")
 public class TimeSeriesInputEntity {
