@@ -1,7 +1,10 @@
 package bigdata.algorithms;
 
 import bigdata.algorithms.Entities.Algorithm;
-
+import		javax.servlet.http.HttpServletRequest;
+import		javax.servlet.http.HttpServletResponse;
+import		javax.servlet.http.HttpServlet;
+import java.io.*;
 import java.util.LinkedList;
 
 /**
@@ -12,8 +15,9 @@ import java.util.LinkedList;
 
 public class RandomPrediction extends Algorithm
 {
-	/**
-	 * Computes the next value for the time series using random prediction algorithm.
+
+
+	/* Computes the next value for the time series using random prediction algorithm.
 	 * 
 	 * @param series  the real time series
 	 * @static
@@ -36,4 +40,5 @@ public class RandomPrediction extends Algorithm
 		nextValue = Math.random() * 2 * sigma + (average - sigma);
 		return nextValue;
 	}
+
 }

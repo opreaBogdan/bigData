@@ -288,6 +288,16 @@ public class BackPropagation extends Algorithm
 				weights3[i][j] += delta * eroare_iesire[j] * iesire3[i];
 	}
 
+	public double[] getPredictedValues()
+	{
+		return prezis;
+	}
+
+	public double[] getRealValues()
+	{
+		return valori;
+	}
+
 	private void afisare()
 	{
 		int i;

@@ -1,7 +1,10 @@
 
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="">
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="my_js.js"></script>
+
 
 
 <head>
@@ -15,8 +18,6 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
 </head>
-
-
 
 
 <body>
@@ -45,7 +46,7 @@
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Generate Graphics</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" onclick="location.href='RandomPrediction.html';">Random Prediction</a>
-                    <a class="dropdown-item" onclick="location.href='BackPropagation.html';">Back Propagation</a>
+                    <a class="dropdown-item" onclick="location.href='BackPropagation.html;'">Back Propagation</a>
                     <a class="dropdown-item" onclick="location.href='CasCorP.html';">CasCorP</a>
                 </div>
             </li>
@@ -57,27 +58,37 @@
 
 
 
-
-
-
-<body>
-
 <main role="main" class="container">
 
-    <blockquote class="blockquote text-center align-middle">
-        <div class = "jumbotron">
-            <h1>Welcome!</h1>
-            <p class="mb-0">You wanna see some amazing predictions and their visualizations?<br/>
-                Register and have some scientific fun.
-            </p>
-            <button type="button" onclick="location.href='register.html';" class="btn btn-outline-primary btn-lg">Register</button>
-        </div>
-    </blockquote>
 
 
+    <style>
+			path {
+				stroke: steelblue;
+				stroke-width: 1;
+				fill: none;
+			}
+
+			.axis {
+			  shape-rendering: crispEdges;
+			}
+			.x.axis line {
+			  stroke: red;
+			}
+			.x.axis .minor {
+			  stroke-opacity: .5;
+			}
+			.y.axis line, .y.axis path {
+			  fill: none;
+			  stroke: #000;
+			  stroke-width: #000;
+			}
+		</style>
+
+    <div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
 
 </main><!-- /.container -->
-
+<script>startRandomPrediction()</script>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -88,5 +99,5 @@
 <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="js/bootstrap.js"></script>
 <script src="my_js.js"></script>
-</body>
+
 </html>

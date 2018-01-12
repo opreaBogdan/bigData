@@ -28,7 +28,7 @@ class HelloController {
     UserEntity user;
 
     @RequestMapping("/random")
-    public double randomPrediction() {
+    public LinkedList<Double> randomPrediction() {
         LinkedList<Double> ll = new LinkedList<>();
 
         ll.add(1.1);
@@ -37,7 +37,8 @@ class HelloController {
         ll.add(1.4);
         ll.add(1.5);
 
-        return RandomPrediction.predict(ll);
+        ll.add (RandomPrediction.predict(ll));
+        return ll;
     }
 
     @RequestMapping("/homeostatic")
@@ -54,21 +55,39 @@ class HelloController {
     }
 
     @RequestMapping("/backpropagation")
-    public double backpropagationPrediction() {
+    public LinkedList<Double> backpropagationPrediction() {
         LinkedList<Double> ll = new LinkedList<>();
-
-        ll.add(1.1);
-        ll.add(1.2);
-        ll.add(1.3);
+        ll.add(1.7);
         ll.add(1.4);
         ll.add(1.5);
-
+        ll.add(1.2);
+        ll.add(4.2);
         BackPropagation.init();
-        return BackPropagation.predict(ll);
+      //  BackPropagation bp = new BackPropagation(ll);
+        ll.add(BackPropagation.predict(ll));
+
+
+        return ll;
+    }
+
+
+    @RequestMapping("/backpropagationV")
+    public LinkedList<Double> backpropagationPredictionRealValues() {
+        LinkedList<Double> ll = new LinkedList<>();
+        ll.add(1.7);
+        ll.add(1.4);
+        ll.add(1.5);
+        ll.add(1.2);
+        ll.add(4.2);
+        //BackPropagation bp = new BackPropagation(ll);
+        ll.add(BackPropagation.predict(ll));
+
+
+        return ll;
     }
 
     @RequestMapping("/cascor")
-    public double cascorPrediction() {
+    public LinkedList<Double> cascorPrediction() {
         LinkedList<Double> ll = new LinkedList<>();
 
         ll.add(1.1);
@@ -78,7 +97,8 @@ class HelloController {
         ll.add(1.5);
 
         CasCor.init(ll);
-        return CasCor.predict(ll);
+        ll.add(CasCor.predict(ll));
+        return ll;
     }
 
     @RequestMapping("/ema")
