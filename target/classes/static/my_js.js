@@ -216,12 +216,23 @@ var asyncRequest;
 function draw_histogram (data)
 {
 
-
+var real_num = data[0];
+var real = data.slice(1, real_num + 1);
+var predict = data.slice(real_num + 1);
 
 var m = [80, 80, 80, 80];
 var w = 1000 - m[1] - m[3];
+
+var len;
+if (predict.length % 2 == 1)
+    len = predict.length + 1;
+else
+    len = predict.length;
+var ww = w / len;
+
 var h = 400 - m[0] - m[2];
-var x = d3.scale.linear().domain([0, data.length]).range([0, w]);
+var x = d3.scale.linear().domain([0, real.length]).range([0, ww * real.length]);
+var x2 = d3.scale.linear().domain([0, predict.length]).range([0, ww * predict.length]);
 var y = d3.scale.linear().domain([0, 10]).range([h, 0]);
 
 var line = d3.svg.line()
@@ -236,12 +247,12 @@ var line = d3.svg.line()
 
 var line2 = d3.svg.line()
 .x(function(d,i) {
-    console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
-    return x(i);
+    console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x2(i) + ' using our xScale.');
+    return x2(i);
 })
 .y(function(d) {
-    console.log('Plotting Y value for data point: ' + d + ' to be at: ' + 150 + " using our yScale.");
-    return 150;
+    console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+    return y(d);
 })
 
 var graph = d3.select("#graph").append("svg:svg")
@@ -250,7 +261,7 @@ var graph = d3.select("#graph").append("svg:svg")
 .append("svg:g")
 .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true);
+var xAxis = d3.svg.axis().scale(x2).tickSize(-h).tickSubdivide(true);
 graph.append("svg:g")
 .attr("class", "x axis")
 .attr("transform", "translate(0," + h + ")")
@@ -265,11 +276,11 @@ graph.append("svg:g")
 
 graph.append("svg:path")
 .attr("class", "line1")
-.attr("d", line(data));
+.attr("d", line(real));
 
 graph.append("svg:path")
 .attr("class", "line2")
-.attr("d", line2(data));
+.attr("d", line2(predict));
 
 
 

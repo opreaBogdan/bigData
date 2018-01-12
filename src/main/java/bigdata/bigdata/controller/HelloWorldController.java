@@ -7,7 +7,6 @@ import bigdata.repositories.TimeSeriesInputEntityRepository;
 import bigdata.repositories.UserEntityRepository;
 import bigdata.utils.Constants;
 import bigdata.utils.Utils;
-import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,116 +27,278 @@ class HelloController {
     UserEntityRepository userEntityRepository;
     UserEntity user;
 
-    LinkedList<Double> valori = null;
+    private List<Double> aux = Arrays.asList(1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.9);
+    private LinkedList<Double> values = new LinkedList<>(aux);
+    private int predict_start = 5;
+    private int prediction_time = 5;
 
     @RequestMapping("/random")
     public LinkedList<Double> randomPrediction() {
         LinkedList<Double>  result = new LinkedList<>();
-        result.add((double)result.size());
-        result.addAll(valori);
+        LinkedList<Double>  to_predict = new LinkedList<>();
+        int real_size = values.size();
 
-        result.add (RandomPrediction.predict(result));
+        // add the number of real values
+        result.add((double)real_size);
+
+        // add real values
+        result.addAll(values);
+
+        // add initial values for prediction
+        for (int i = 0; i < predict_start; i++) {
+            result.add(values.get(i));
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = predict_start; i < real_size; i++) {
+            double predicted_value = RandomPrediction.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = 0; i < prediction_time; i++) {
+            double predicted_value = RandomPrediction.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(predicted_value);
+        }
+
         return result;
     }
 
     @RequestMapping("/homeostatic")
     public LinkedList<Double> homeostaticPrediction() {
+        LinkedList<Double>  result = new LinkedList<>();
+        LinkedList<Double>  to_predict = new LinkedList<>();
+        int real_size = values.size();
 
-        LinkedList<Double>  result = new LinkedList<>(valori);
-        result.add(Homeostatic.predict(result));
+        // add the number of real values
+        result.add((double)real_size);
+
+        // add real values
+        result.addAll(values);
+
+        // add initial values for prediction
+        for (int i = 0; i < predict_start; i++) {
+            result.add(values.get(i));
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = predict_start; i < real_size; i++) {
+            double predicted_value = Homeostatic.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = 0; i < prediction_time; i++) {
+            double predicted_value = Homeostatic.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(predicted_value);
+        }
+
         return result;
     }
 
     @RequestMapping("/backpropagation")
     public LinkedList backpropagationPrediction() {
-        valori = new LinkedList<>();
-        valori.add(1.0);
-        valori.add(1.1);
-        valori.add(1.2);
-        valori.add(1.3);
-        valori.add(1.4);
-        valori.add(1.5);
-        valori.add(1.6);
-        valori.add(1.7);
-        valori.add(1.8);
-        valori.add(1.9);
-        valori.add(2.0);
-        valori.add(2.1);
-        valori.add(2.2);
-
         BackPropagation.init();
-        LinkedList<Double>  result = new LinkedList<>(valori);
-        result.add(BackPropagation.predict(result));
+
+        LinkedList<Double>  result = new LinkedList<>();
+        LinkedList<Double>  to_predict = new LinkedList<>();
+        int real_size = values.size();
+
+        // add the number of real values
+        result.add((double)real_size);
+
+        // add real values
+        result.addAll(values);
+
+        // add initial values for prediction
+        for (int i = 0; i < predict_start; i++) {
+            result.add(values.get(i));
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = predict_start; i < real_size; i++) {
+            double predicted_value = BackPropagation.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = 0; i < prediction_time; i++) {
+            double predicted_value = BackPropagation.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(predicted_value);
+        }
+
         return result;
     }
 
     @RequestMapping("/cascor")
     public LinkedList<Double> cascorPrediction() {
-        LinkedList<Double> ll = new LinkedList<>();
 
-        ll.add(1.1);
-        ll.add(1.2);
-        ll.add(1.3);
-        ll.add(1.4);
-        ll.add(1.5);
+        LinkedList<Double>  result = new LinkedList<>();
+        LinkedList<Double>  to_predict = new LinkedList<>();
+        int real_size = values.size();
 
-        CasCor.init(ll);
-        ll.add(CasCor.predict(ll));
-        return ll;
+        // add the number of real values
+        result.add((double)real_size);
+
+        // add real values
+        result.addAll(values);
+
+        // add initial values for prediction
+        for (int i = 0; i < predict_start; i++) {
+            result.add(values.get(i));
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = predict_start; i < real_size; i++) {
+            CasCor.init(to_predict);
+            double predicted_value = CasCor.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = 0; i < prediction_time; i++) {
+            CasCor.init(to_predict);
+            double predicted_value = CasCor.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(predicted_value);
+        }
+
+        return result;
     }
 
     @RequestMapping("/ema")
     public LinkedList<Double> emaPrediction() {
-        LinkedList<Double> ll = new LinkedList<>();
+        LinkedList<Double>  result = new LinkedList<>();
+        LinkedList<Double>  to_predict = new LinkedList<>();
+        int real_size = values.size();
 
-        ll.add(1.1);
-        ll.add(1.2);
-        ll.add(1.3);
-        ll.add(1.4);
-        ll.add(1.5);
+        // add the number of real values
+        result.add((double)real_size);
 
-        ll.add(EMA.predict(ll));
-        return ll;
+        // add real values
+        result.addAll(values);
+
+        // add initial values for prediction
+        for (int i = 0; i < predict_start; i++) {
+            result.add(values.get(i));
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = predict_start; i < real_size; i++) {
+            double predicted_value = EMA.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = 0; i < prediction_time; i++) {
+            double predicted_value = EMA.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(predicted_value);
+        }
+
+        return result;
     }
 
     @RequestMapping("/tendency")
     public LinkedList<Double> tendencyPrediction() {
-        LinkedList<Double> ll = new LinkedList<>();
+        LinkedList<Double>  result = new LinkedList<>();
+        LinkedList<Double>  to_predict = new LinkedList<>();
+        int real_size = values.size();
 
-        ll.add(1.1);
-        ll.add(1.2);
-        ll.add(1.3);
-        ll.add(1.4);
-        ll.add(1.5);
-        ll.add(Tendency_based.predict(ll));
-        return ll;
+        // add the number of real values
+        result.add((double)real_size);
+
+        // add real values
+        result.addAll(values);
+
+        // add initial values for prediction
+        for (int i = 0; i < predict_start; i++) {
+            result.add(values.get(i));
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = predict_start; i < real_size; i++) {
+            double predicted_value = Tendency_based.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = 0; i < prediction_time; i++) {
+            double predicted_value = Tendency_based.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(predicted_value);
+        }
+
+        return result;
     }
 
     @RequestMapping("/unix")
     public LinkedList<Double> unixPrediction() {
-        LinkedList<Double> ll = new LinkedList<>();
+        LinkedList<Double>  result = new LinkedList<>();
+        LinkedList<Double>  to_predict = new LinkedList<>();
+        int real_size = values.size();
 
-        ll.add(1.1);
-        ll.add(1.2);
-        ll.add(1.3);
-        ll.add(1.4);
-        ll.add(1.5);
-        ll.add(UnixCPULoadPrediction.predict(ll));
-        return ll;
+        // add the number of real values
+        result.add((double)real_size);
+
+        // add real values
+        result.addAll(values);
+
+        // add initial values for prediction
+        for (int i = 0; i < predict_start; i++) {
+            result.add(values.get(i));
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = predict_start; i < real_size; i++) {
+            double predicted_value = UnixCPULoadPrediction.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = 0; i < prediction_time; i++) {
+            double predicted_value = UnixCPULoadPrediction.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(predicted_value);
+        }
+
+        return result;
     }
 
     @RequestMapping("/wma")
     public LinkedList<Double> wmaPrediction() {
-        LinkedList<Double> ll = new LinkedList<>();
+        LinkedList<Double>  result = new LinkedList<>();
+        LinkedList<Double>  to_predict = new LinkedList<>();
+        int real_size = values.size();
 
-        ll.add(1.1);
-        ll.add(1.2);
-        ll.add(1.3);
-        ll.add(1.4);
-        ll.add(1.5);
+        // add the number of real values
+        result.add((double)real_size);
 
-        ll.add(WMA.predict(ll));
-        return ll;
+        // add real values
+        result.addAll(values);
+
+        // add initial values for prediction
+        for (int i = 0; i < predict_start; i++) {
+            result.add(values.get(i));
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = predict_start; i < real_size; i++) {
+            double predicted_value = WMA.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(values.get(i));
+        }
+
+        for (int i = 0; i < prediction_time; i++) {
+            double predicted_value = WMA.predict(to_predict);
+            result.add(predicted_value);
+            to_predict.add(predicted_value);
+        }
+
+        return result;
     }
 
     @RequestMapping("/all")
