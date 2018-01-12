@@ -149,6 +149,49 @@ var asyncRequest;
 
 
 
+var asyncRequest;
+       function startTendencyBased(){
+
+                    $.ajax({
+                    type: "POST",
+                    url: "/tendency",
+                    success: function(data)
+                    {
+                    alert(data);
+
+                    return draw_histogram(data);
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                    },
+                    async:false
+                    });
+}
+
+var asyncRequest;
+       function startUnix(){
+
+                    $.ajax({
+                    type: "POST",
+                    url: "/unix",
+                    success: function(data)
+                    {
+                    alert(data);
+
+                    return draw_histogram(data);
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                    },
+                    async:false
+                    });
+}
+
+
 function draw_histogram (data)
 {
 

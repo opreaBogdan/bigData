@@ -116,7 +116,7 @@ class HelloController {
     }
 
     @RequestMapping("/tendency")
-    public double tendencyPrediction() {
+    public LinkedList<Double> tendencyPrediction() {
         LinkedList<Double> ll = new LinkedList<>();
 
         ll.add(1.1);
@@ -124,12 +124,12 @@ class HelloController {
         ll.add(1.3);
         ll.add(1.4);
         ll.add(1.5);
-
-        return Tendency_based.predict(ll);
+        ll.add(Tendency_based.predict(ll));
+        return ll;
     }
 
     @RequestMapping("/unix")
-    public double unixPrediction() {
+    public LinkedList<Double> unixPrediction() {
         LinkedList<Double> ll = new LinkedList<>();
 
         ll.add(1.1);
@@ -137,8 +137,8 @@ class HelloController {
         ll.add(1.3);
         ll.add(1.4);
         ll.add(1.5);
-
-        return UnixCPULoadPrediction.predict(ll);
+        ll.add(UnixCPULoadPrediction.predict(ll));
+        return ll;
     }
 
     @RequestMapping("/wma")
