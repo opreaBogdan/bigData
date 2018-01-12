@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,63 +28,47 @@ class HelloController {
     UserEntityRepository userEntityRepository;
     UserEntity user;
 
+    LinkedList<Double> valori = null;
+
     @RequestMapping("/random")
     public LinkedList<Double> randomPrediction() {
-        LinkedList<Double> ll = new LinkedList<>();
+        LinkedList<Double>  result = new LinkedList<>();
+        result.add((double)result.size());
+        result.addAll(valori);
 
-        ll.add(1.1);
-        ll.add(1.2);
-        ll.add(1.3);
-        ll.add(1.4);
-        ll.add(1.5);
-
-        ll.add (RandomPrediction.predict(ll));
-        return ll;
+        result.add (RandomPrediction.predict(result));
+        return result;
     }
 
     @RequestMapping("/homeostatic")
     public LinkedList<Double> homeostaticPrediction() {
-        LinkedList<Double> ll = new LinkedList<>();
 
-        ll.add(1.1);
-        ll.add(1.2);
-        ll.add(1.3);
-        ll.add(1.4);
-        ll.add(1.5);
-       ll.add(Homeostatic.predict(ll));
-       return ll;
+        LinkedList<Double>  result = new LinkedList<>(valori);
+        result.add(Homeostatic.predict(result));
+        return result;
     }
 
     @RequestMapping("/backpropagation")
-    public LinkedList<Double> backpropagationPrediction() {
-        LinkedList<Double> ll = new LinkedList<>();
-        ll.add(1.7);
-        ll.add(1.4);
-        ll.add(1.5);
-        ll.add(1.2);
-        ll.add(4.2);
+    public LinkedList backpropagationPrediction() {
+        valori = new LinkedList<>();
+        valori.add(1.0);
+        valori.add(1.1);
+        valori.add(1.2);
+        valori.add(1.3);
+        valori.add(1.4);
+        valori.add(1.5);
+        valori.add(1.6);
+        valori.add(1.7);
+        valori.add(1.8);
+        valori.add(1.9);
+        valori.add(2.0);
+        valori.add(2.1);
+        valori.add(2.2);
+
         BackPropagation.init();
-      //  BackPropagation bp = new BackPropagation(ll);
-        ll.add(BackPropagation.predict(ll));
-
-
-        return ll;
-    }
-
-
-    @RequestMapping("/backpropagationV")
-    public LinkedList<Double> backpropagationPredictionRealValues() {
-        LinkedList<Double> ll = new LinkedList<>();
-        ll.add(1.7);
-        ll.add(1.4);
-        ll.add(1.5);
-        ll.add(1.2);
-        ll.add(4.2);
-        //BackPropagation bp = new BackPropagation(ll);
-        ll.add(BackPropagation.predict(ll));
-
-
-        return ll;
+        LinkedList<Double>  result = new LinkedList<>(valori);
+        result.add(BackPropagation.predict(result));
+        return result;
     }
 
     @RequestMapping("/cascor")

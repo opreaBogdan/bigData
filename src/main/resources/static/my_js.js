@@ -226,23 +226,23 @@ var y = d3.scale.linear().domain([0, 10]).range([h, 0]);
 
 var line = d3.svg.line()
 .x(function(d,i) {
-console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
-return x(i);
+    console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+    return x(i);
 })
 .y(function(d) {
-console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
-return y(d);
+    console.log('Plotting Y value for data point: ' + d + ' to be at: ' + y(d) + " using our yScale.");
+    return y(d);
 })
 
 var line2 = d3.svg.line()
-            .x(function(d,i) {
-            console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
-            return x(i);
-            })
-            .y(function(d) {
-            console.log('Plotting Y value for data point: ' + d + ' to be at: ' + 150 + " using our yScale.");
-            return 150;
-            })
+.x(function(d,i) {
+    console.log('Plotting X value for data point: ' + d + ' using index: ' + i + ' to be at: ' + x(i) + ' using our xScale.');
+    return x(i);
+})
+.y(function(d) {
+    console.log('Plotting Y value for data point: ' + d + ' to be at: ' + 150 + " using our yScale.");
+    return 150;
+})
 
 var graph = d3.select("#graph").append("svg:svg")
 .attr("width", w + m[1] + m[3])
@@ -263,8 +263,13 @@ graph.append("svg:g")
 .attr("transform", "translate(-25,0)")
 .call(yAxisLeft);
 
-graph.append("svg:path").attr("d", line(data));
-graph.append("svg:path").attr("d", line2(data));
+graph.append("svg:path")
+.attr("class", "line1")
+.attr("d", line(data));
+
+graph.append("svg:path")
+.attr("class", "line2")
+.attr("d", line2(data));
 
 
 

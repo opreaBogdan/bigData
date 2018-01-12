@@ -114,13 +114,13 @@ public class BackPropagation extends Algorithm
 		double intrare[]=new double[MAX];
 		double next = 0;
 		for(int j = 0 ; j < N ; j ++)
-			intrare[j] = series.get(j)/division;
+			intrare[j] = series.get(j);
 		calculeaza_iesire(intrare);
 		next = iesire4[0];
 		if(Math.abs(max_intrare) > 1)
 			next *= max_intrare;
 		
-		next *= division;
+//		next *= division;
 		
 		return next;
 	}
