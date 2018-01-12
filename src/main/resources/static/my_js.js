@@ -92,7 +92,49 @@ var asyncRequest;
                     {
                     alert(data);
 
+                    return draw_histogram(data);
 
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                    },
+                    async:false
+                    });
+}
+
+
+
+var asyncRequest;
+       function startEMA(){
+
+                    $.ajax({
+                    type: "POST",
+                    url: "/ema",
+                    success: function(data)
+                    {
+                    alert(data);
+
+                    return draw_histogram(data);
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                    },
+                    async:false
+                    });
+}
+
+var asyncRequest;
+       function startHomeostatic(){
+
+                    $.ajax({
+                    type: "POST",
+                    url: "/homeostatic",
+                    success: function(data)
+                    {
+                    alert(data);
 
                     return draw_histogram(data);
 
@@ -107,7 +149,7 @@ var asyncRequest;
 
 
 
-function draw_histogram ( data)
+function draw_histogram (data)
 {
 
 

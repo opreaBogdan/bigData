@@ -42,7 +42,7 @@ class HelloController {
     }
 
     @RequestMapping("/homeostatic")
-    public double homeostaticPrediction() {
+    public LinkedList<Double> homeostaticPrediction() {
         LinkedList<Double> ll = new LinkedList<>();
 
         ll.add(1.1);
@@ -50,8 +50,8 @@ class HelloController {
         ll.add(1.3);
         ll.add(1.4);
         ll.add(1.5);
-
-        return Homeostatic.predict(ll);
+       ll.add(Homeostatic.predict(ll));
+       return ll;
     }
 
     @RequestMapping("/backpropagation")
@@ -102,7 +102,7 @@ class HelloController {
     }
 
     @RequestMapping("/ema")
-    public double emaPrediction() {
+    public LinkedList<Double> emaPrediction() {
         LinkedList<Double> ll = new LinkedList<>();
 
         ll.add(1.1);
@@ -111,7 +111,8 @@ class HelloController {
         ll.add(1.4);
         ll.add(1.5);
 
-        return EMA.predict(ll);
+        ll.add(EMA.predict(ll));
+        return ll;
     }
 
     @RequestMapping("/tendency")
