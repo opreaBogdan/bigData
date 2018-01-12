@@ -142,7 +142,7 @@ class HelloController {
     }
 
     @RequestMapping("/wma")
-    public double wmaPrediction() {
+    public LinkedList<Double> wmaPrediction() {
         LinkedList<Double> ll = new LinkedList<>();
 
         ll.add(1.1);
@@ -151,7 +151,8 @@ class HelloController {
         ll.add(1.4);
         ll.add(1.5);
 
-        return WMA.predict(ll);
+        ll.add(WMA.predict(ll));
+        return ll;
     }
 
     @RequestMapping("/all")
