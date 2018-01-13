@@ -268,6 +268,27 @@ function displayStatistics(real, predicted){
     contentType:false,
     success: function(data)
     {
+        $("span#real_ma").text(data[0]);
+        $("span#real_mg").text(data[1]);
+        $("span#real_mar").text(data[2]);
+        $("span#real_amp").text(data[3]);
+        $("span#real_aa").text(data[4]);
+        $("span#real_ar").text(data[5]);
+        $("span#real_mp").text(data[6]);
+        $("span#real_m").text(data[7]);
+        $("span#real_cv").text(data[8]);
+        $("span#real_aml").text(data[9]);
+
+        $("span#predict_ma").text(data[10]);
+        $("span#predict_mg").text(data[11]);
+        $("span#predict_mar").text(data[12]);
+        $("span#predict_amp").text(data[13]);
+        $("span#predict_aa").text(data[14]);
+        $("span#predict_ar").text(data[15]);
+        $("span#predict_mp").text(data[16]);
+        $("span#predict_m").text(data[17]);
+        $("span#predict_cv").text(data[18]);
+        $("span#predict_aml").text(data[19]);
     },
     error: function (xhr, ajaxOptions, thrownError) {
         alert(xhr.status);

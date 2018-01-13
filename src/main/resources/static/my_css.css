@@ -5,3 +5,5 @@ jumbotron {
   border: 1px dashed deeppink;
   width: 25%
 }
+
+p { display: inline }

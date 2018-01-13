@@ -68,7 +68,7 @@ public class Utils {
         double produs = 1;
         for (double valoare : valori) {
             if (valoare <= 0)
-                throw new Exception("Cannot computer geometric average over this series!");
+                return -1;
             produs *= valoare;
         }
         return Math.pow(produs, 1/(valori.length));
