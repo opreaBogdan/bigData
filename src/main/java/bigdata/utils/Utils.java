@@ -3,6 +3,7 @@ package bigdata.utils;
 import bigdata.entities.TimeSeriesInputEntity;
 import bigdata.repositories.TimeSeriesInputEntityRepository;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,10 +41,22 @@ public class Utils {
         return result;
     }
 
-    public static void writeResult(String token, String algorithm, String content, TimeSeriesInputEntityRepository timeSeriesInputEntityRepository) {
+    public static void writeResult(String token, BufferedReader content, TimeSeriesInputEntityRepository timeSeriesInputEntityRepository) {
+
+        String line;
+        String result = "";
+
+        try {
+            while ((line = content.readLine()) != null) {
+                result = line + "\n";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Constants.serverBasePath + Constants.delimiter + token));
-            bw.write(content);
+            bw.write(result);
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,7 +66,7 @@ public class Utils {
     }
 
     // utila cand nu exista multe valori extreme
-    static double medie_aritmetica(double[] valori) {
+    public static double medie_aritmetica(double[] valori) {
         double suma = 0;
         for (double valoare : valori)
             suma += valoare;
@@ -62,20 +75,20 @@ public class Utils {
 
     // utila cand exista valori extreme, dar fara valori nule sau negative ... cand
     // seria e dinamica
-    static double medie_geometrica(double[] valori) throws Exception{
-        double produs = 0;
+    public static double medie_geometrica(double[] valori) throws Exception{
+        double produs = 1;
         for (double valoare : valori) {
             if (valoare <= 0)
                 throw new Exception("Cannot computer geometric average over this series!");
             produs *= valoare;
         }
-        return Math.pow(produs, -(valori.length));
+        return Math.pow(produs, 1/(valori.length));
     }
 
     // pentru serii in care valorile sunt din ce in ce mai mari
     // insesibila la valori nule sau negative
     // da importanta valorilor mari din serie
-    static double medie_patratica(double[] valori) {
+    public static double medie_patratica(double[] valori) {
         double suma = 0;
         for (double valoare : valori)
             suma += (valoare * valoare);
@@ -84,7 +97,7 @@ public class Utils {
     }
 
     // exprima caracterul sintetic. Pentru cand frecvenetele sunt egale
-    static double medie_armonica(double[] valori) {
+    public static double medie_armonica(double[] valori) {
         double suma = 0;
         for (double valoare : valori)
             suma += (1/valoare);
@@ -92,12 +105,12 @@ public class Utils {
     }
 
     // valoarea care imparte intervalul in 2 intervale egale
-    static double mediana(double[] valori) {
+    public static double mediana(double[] valori) {
         Arrays.sort(valori);
         return valori[valori.length/2];
     }
 
-    static double amplitutine_absoluta(double[] valori) {
+    public static double amplitutine_absoluta(double[] valori) {
         double min = valori[0], max = valori[0];
         for (double valoare : valori) {
             if (valoare < min)
@@ -109,19 +122,19 @@ public class Utils {
         return max - min;
     }
 
-    static double amplitudine_relativa(double[] valori) {
+    public static double amplitudine_relativa(double[] valori) {
         return 100 * amplitutine_absoluta(valori) / medie_aritmetica(valori);
     }
 
-    static double abatere_individuala_absoluta(double[] valori, double valoare) {
+    public static double abatere_individuala_absoluta(double[] valori, double valoare) {
         return valoare - medie_aritmetica(valori);
     }
 
-    static double abatere_individuala_relativa(double[] valori, double valoare) {
+    public static double abatere_individuala_relativa(double[] valori, double valoare) {
         return abatere_individuala_absoluta(valori, valoare) / medie_aritmetica(valori);
     }
 
-    static double abatere_medie_liniara(double[] valori) {
+    public static double abatere_medie_liniara(double[] valori) {
         double suma = 0;
         double media_aritmetica = medie_aritmetica(valori);
 
@@ -132,7 +145,7 @@ public class Utils {
     }
 
     // da ponderi mai mari abaterilor mai mari
-    static double abatere_medie_patratica(double[] valori) {
+    public static double abatere_medie_patratica(double[] valori) {
         double suma = 0;
         double media_aritmetica = medie_aritmetica(valori);
 
@@ -145,11 +158,11 @@ public class Utils {
     // valoare mica -> omogenitate
     // peste un coeficient de 30 - 40 % media nu mai e concludenta
     // daca media aritmetica e aproape de zero, coeficientul nu are o interpretare corecta
-    static double coeficient_variatie(double[] valori) {
+    public static double coeficient_variatie(double[] valori) {
         return 100 * abatere_medie_patratica(valori) / medie_aritmetica(valori);
     }
 
-    static double disperatie(double[] valori) {
+    public static double dispersie(double[] valori) {
         double suma = 0;
         double media_aritmetica = medie_aritmetica(valori);
 
@@ -159,11 +172,20 @@ public class Utils {
         return suma / valori.length;
     }
 
-//    static LinkedList<Double> parseEntryFile(String filename) {
-//        LinkedList<Double> result = new LinkedList<Double>();
-//
-//        File f =
-//
-//        return result;
-//    }
+    public static LinkedList<Double> parseInputFile(BufferedReader content) {
+        LinkedList<Double> result = new LinkedList<>();
+
+        String line;
+
+        try {
+            while ((line = content.readLine()) != null) {
+                double value = Double.parseDouble(line);
+                result.add(value);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

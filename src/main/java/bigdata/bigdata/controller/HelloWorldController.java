@@ -7,17 +7,14 @@ import bigdata.repositories.TimeSeriesInputEntityRepository;
 import bigdata.repositories.UserEntityRepository;
 import bigdata.utils.Constants;
 import bigdata.utils.Utils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.*;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -31,8 +28,7 @@ class HelloController {
     UserEntityRepository userEntityRepository;
     UserEntity user;
 
-    private List<Double> aux = Arrays.asList(1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.9);
-    private LinkedList<Double> values = new LinkedList<>();
+    private LinkedList<Double> values = null;
     private int predict_start = 5;
     private int prediction_time = 5;
 
@@ -361,7 +357,7 @@ class HelloController {
         result += "WMA " + wmaPrediction() + "</br>";
 
         String token = Utils.generateToken(timeSeriesInputEntityRepository);
-        Utils.writeResult(token, algorithm, result, timeSeriesInputEntityRepository);
+//        Utils.writeResult(token, algorithm, result, timeSeriesInputEntityRepository);
 
         return result;
     }
@@ -408,9 +404,12 @@ class HelloController {
         if(response.getFile() == null) {
             throw new IllegalArgumentException("File not found");
         }
-        BufferedReader readFIle = new BufferedReader(new InputStreamReader(response.getFile().getInputStream(), "UTF-8"));
-
-        return "File has been uploaded";
+        prediction_time = response.getPerioada();
+        BufferedReader readFile = new BufferedReader(new InputStreamReader(response.getFile().getInputStream(), "UTF-8"));
+        values = Utils.parseInputFile(readFile);
+        String token = Utils.generateToken(timeSeriesInputEntityRepository);
+        Utils.writeResult(token, readFile, timeSeriesInputEntityRepository);
+        return token;
     }
 
     @ResponseBody
@@ -425,5 +424,40 @@ class HelloController {
 //        }
 //
 //        user = userEntities.remove(0);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/statistics", method = RequestMethod.POST, consumes = {"application/x-www-form-urlencoded","multipart/form-data"})
+    public ArrayList<Double> getStatistics(@ModelAttribute StatisticsJSON response) throws Exception {
+        ArrayList<Double> result = new ArrayList<>();
+
+        double[] real = response.getReal();
+        double[] predicted = response.getPredicted();
+
+        // real statictics
+        result.add(Utils.medie_aritmetica(real));
+        result.add(Utils.medie_geometrica(real));
+        result.add(Utils.medie_armonica(real));
+        result.add(Utils.abatere_medie_patratica(real));
+        result.add(Utils.amplitutine_absoluta(real));
+        result.add(Utils.amplitudine_relativa(real));
+        result.add(Utils.medie_patratica(real));
+        result.add(Utils.mediana(real));
+        result.add(Utils.coeficient_variatie(real));
+        result.add(Utils.abatere_medie_liniara(real));
+
+        // predicted statistics
+        result.add(Utils.medie_aritmetica(predicted));
+        result.add(Utils.medie_geometrica(predicted));
+        result.add(Utils.medie_armonica(predicted));
+        result.add(Utils.abatere_medie_patratica(predicted));
+        result.add(Utils.amplitutine_absoluta(predicted));
+        result.add(Utils.amplitudine_relativa(predicted));
+        result.add(Utils.medie_patratica(predicted));
+        result.add(Utils.mediana(predicted));
+        result.add(Utils.coeficient_variatie(predicted));
+        result.add(Utils.abatere_medie_liniara(predicted));
+
+        return result;
     }
 }

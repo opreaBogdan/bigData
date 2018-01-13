@@ -36,12 +36,6 @@
             <li class="nav-item active">
                 <a class="nav-link" href="token.html">Token<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Generate Graphics</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -78,6 +72,18 @@
 				fill: none;
 			}
 
+			.line1 {
+				stroke: steelblue;
+				stroke-width: 1;
+				fill: none;
+			}
+
+			.line2 {
+				stroke: red;
+				stroke-width: 1;
+				fill: none;
+			}
+
 			.axis {
 			  shape-rendering: crispEdges;
 			}
@@ -97,6 +103,7 @@
     <div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
 
 </main><!-- /.container -->
+</body>
 <script>startHomeostatic()</script>
 
 <!-- Bootstrap core JavaScript

@@ -236,7 +236,7 @@ var asyncRequest;
 }
 
 var asyncRequest;
-       function startWMA(){
+function startWMA(){
 
                     $.ajax({
                     type: "POST",
@@ -261,6 +261,31 @@ var asyncRequest;
                     });
 }
 
+function displayStatistics(real, predicted){
+
+    var form_data = new FormData();
+
+    form_data.append("real", real);
+
+    form_data.append("predicted", predicted);
+
+    $.ajax({
+    type: "POST",
+    url: "/statistics",
+    data: form_data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+    processData: false,
+    contentType:false,
+    success: function(data)
+    {
+        alert(data);
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+    },
+    async:false
+    });
+}
 
 var asyncRequest;
        function SaveAs(){
@@ -283,6 +308,8 @@ function draw_histogram (data)
 var real_num = data[0];
 var real = data.slice(1, real_num + 1);
 var predict = data.slice(real_num + 1);
+
+displayStatistics(real, predict);
 
 var m = [80, 80, 80, 80];
 var w = 1000 - m[1] - m[3];
@@ -399,28 +426,26 @@ function trimitere() {
 		async: false
 });
 
- }
+							var file_data = $("#file_id").prop("files")[0];
+                            var perioada = $("input#numberField").val();
 
-var asyncRequest;
-function trimitere() {
-    var file_data = $("#file_id").prop("files")[0];
-    alert(file_data);
-    var perioada = $("input#numberField").val();
-	var form_data = new FormData();
-    form_data.append("file", file_data);
-    form_data.append("perioada", perioada);
-    alert(form_data);
-	$.ajax({
-	    url: "/uploadingFile", // Url to which the request is send
-		type: "POST",             // Type of request to be send, called as method
-		data: form_data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-        processData: false,
-        contentType:false,
-		success: function (data)   // A function to be called if request succeeds
-		{
-		    alert("Am ajuns in success");
-		},
-		async: false
-});
+							var form_data = new FormData();
+
+							form_data.append("file", file_data);
+
+							form_data.append("perioada", perioada);
+
+							$.ajax({
+								url: "/uploadingFile", // Url to which the request is send
+								type: "POST",             // Type of request to be send, called as method
+								data: form_data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                                processData: false,
+                                contentType:false,
+								success: function (data)   // A function to be called if request succeeds
+								{
+								    alert("You token for future references is:\n" + data + "\n Please match it case sensitive.");
+								},
+								async: false
+							});
 
  }
