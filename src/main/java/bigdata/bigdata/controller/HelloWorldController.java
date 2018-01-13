@@ -362,26 +362,24 @@ class HelloController {
         return result;
     }
 
-    @RequestMapping(value = "/get", params = "token", method = GET)
-    public String getFromToken(@RequestParam("token") String token) {
+    @RequestMapping(value = "/resultsFromToken", params = "token", method = POST)
+    public String resultsFromToken(@RequestParam("token") String token) {
         List<TimeSeriesInputEntity> queryResult = timeSeriesInputEntityRepository.findByToken(token);
         String result = "No data available for this token";
         if (queryResult == null || queryResult.size() == 0) {
             return result;
         }
 
-        TimeSeriesInputEntity res = queryResult.remove(0);
+//        TimeSeriesInputEntity res = queryResult.remove(0);
         try {
-            result = "";
             BufferedReader br = new BufferedReader(new FileReader(Constants.serverBasePath + Constants.delimiter + token));
-            String line;
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
+            LinkedList<Double> res = Utils.parseInputFileFromToken(br);
+            prediction_time = res.remove(0).intValue();
+            values = res;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        return "Token uploaded!";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)

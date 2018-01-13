@@ -181,4 +181,26 @@ public class Utils {
 
         return result;
     }
+
+    public static LinkedList<Double> parseInputFileFromToken(BufferedReader content) {
+        LinkedList<Double> result = new LinkedList<>();
+
+        String line;
+        String toSave = "";
+
+        try {
+            line = content.readLine();
+            result.add(Double.parseDouble(line));
+
+            while ((line = content.readLine()) != null) {
+                toSave = toSave + line + "\n";
+                double value = Double.parseDouble(line);
+                result.add(value);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

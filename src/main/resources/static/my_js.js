@@ -25,7 +25,6 @@ function registerShowPassword() {
                     success: function(data)
                     {
                     if (data) {
-                        alert(data);
                         return draw_histogram(data);
                     }
                     alert("We cannot compute prediction");
@@ -55,7 +54,6 @@ var asyncRequest;
                     success: function(data)
                     {
                     if (data) {
-                        alert(data);
                         return draw_histogram(data);
                     }
                     alert("We cannot compute prediction");
@@ -82,7 +80,6 @@ var asyncRequest;
                     success: function(data)
                     {
                       if (data) {
-                          alert(data);
                           return draw_histogram(data);
                       }
                       alert("We cannot compute prediction");
@@ -110,7 +107,6 @@ var asyncRequest;
                     success: function(data)
                     {
                      if (data) {
-                         alert(data);
                          return draw_histogram(data);
                      }
                      alert("We cannot compute prediction");
@@ -138,7 +134,6 @@ var asyncRequest;
                     success: function(data)
                     {
                     if (data) {
-                        alert(data);
                         return draw_histogram(data);
                     }
                     alert("We cannot compute prediction");
@@ -164,7 +159,6 @@ var asyncRequest;
                     success: function(data)
                     {
                     if (data) {
-                        alert(data);
                         return draw_histogram(data);
                     }
                     alert("We cannot compute prediction");
@@ -192,7 +186,6 @@ var asyncRequest;
                     success: function(data)
                     {
                     if (data) {
-                        alert(data);
                         return draw_histogram(data);
                     }
                     alert("We cannot compute prediction");
@@ -218,7 +211,6 @@ var asyncRequest;
                     success: function(data)
                     {
                     if (data) {
-                        alert(data);
                         return draw_histogram(data);
                     }
                     alert("We cannot compute prediction");
@@ -244,7 +236,6 @@ function startWMA(){
                     success: function(data)
                     {
                     if (data) {
-                        alert(data);
                         return draw_histogram(data);
                     }
                     alert("We cannot compute prediction");
@@ -277,7 +268,6 @@ function displayStatistics(real, predicted){
     contentType:false,
     success: function(data)
     {
-        alert(data);
     },
     error: function (xhr, ajaxOptions, thrownError) {
         alert(xhr.status);
@@ -404,15 +394,30 @@ function login(){
     });
 }
 
+function resultsFromToken(){
+    var this_token = $("#token").val();
+    $.ajax({
+      type: "POST",
+      url: "/resultsFromToken",
+      data: {token : this_token},
+      success: function(data){
+         alert(data);
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+              alert(xhr.status);
+              alert(thrownError);
+            },
+            async:false
+    });
+}
+
 var asyncRequest;
 function trimitere() {
     var file_data = $("#file_id").prop("files")[0];
-    alert(file_data);
     var perioada = $("input#numberField").val();
 	var form_data = new FormData();
     form_data.append("file", file_data);
     form_data.append("perioada", perioada);
-    alert(form_data);
 	$.ajax({
 	    url: "/uploadingFile", // Url to which the request is send
 		type: "POST",             // Type of request to be send, called as method
@@ -421,7 +426,6 @@ function trimitere() {
         contentType:false,
 		success: function (data)   // A function to be called if request succeeds
 		{
-		    alert("Am ajuns in success");
 		},
 		async: false
 });
@@ -443,7 +447,7 @@ function trimitere() {
                                 contentType:false,
 								success: function (data)   // A function to be called if request succeeds
 								{
-								    alert("You token for future references is:\n" + data + "\n Please match it case sensitive.");
+								    alert("Your token for future references is:\n" + data + "\n Please match it case sensitive.");
 								},
 								async: false
 							});
