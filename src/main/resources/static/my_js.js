@@ -24,12 +24,16 @@ function registerShowPassword() {
                     url: "/random",
                     success: function(data)
                     {
-                    alert(data);
+                    if (data) {
+                        alert(data);
+                        return draw_histogram(data);
+                    }
+                    alert("We cannot compute prediction");
+                    $(document).ready(function () {
+                       window.location.href = "index.html";
+                    });
 
-
-
-                    return draw_histogram(data);
-
+                    return "We cannot compute prediction";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -50,12 +54,15 @@ var asyncRequest;
                     url: "/backpropagation",
                     success: function(data)
                     {
-                    alert(data);
-
-
-
-                    return draw_histogram(data);
-
+                    if (data) {
+                        alert(data);
+                        return draw_histogram(data);
+                    }
+                    alert("We cannot compute prediction");
+                    $(document).ready(function () {
+                       window.location.href = "index.html";
+                    });
+                    return "We cannot compute prediction";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -74,12 +81,15 @@ var asyncRequest;
                     url: "/backpropagationV",
                     success: function(data)
                     {
-                    alert(data);
-
-
-
-                    return draw_histogram(data);
-
+                      if (data) {
+                          alert(data);
+                          return draw_histogram(data);
+                      }
+                      alert("We cannot compute prediction");
+                      $(document).ready(function () {
+                         window.location.href = "index.html";
+                      });
+                      return "We cannot compute prediction";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -99,10 +109,15 @@ var asyncRequest;
                     url: "/cascor",
                     success: function(data)
                     {
-                    alert(data);
-
-                    return draw_histogram(data);
-
+                     if (data) {
+                         alert(data);
+                         return draw_histogram(data);
+                     }
+                     alert("We cannot compute prediction");
+                     $(document).ready(function () {
+                        window.location.href = "index.html";
+                     });
+                     return "We cannot compute prediction";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -122,10 +137,15 @@ var asyncRequest;
                     url: "/ema",
                     success: function(data)
                     {
-                    alert(data);
-
-                    return draw_histogram(data);
-
+                    if (data) {
+                        alert(data);
+                        return draw_histogram(data);
+                    }
+                    alert("We cannot compute prediction");
+                    $(document).ready(function () {
+                       window.location.href = "index.html";
+                    });
+                    return "We cannot compute prediction";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -143,10 +163,15 @@ var asyncRequest;
                     url: "/homeostatic",
                     success: function(data)
                     {
-                    alert(data);
-
-                    return draw_histogram(data);
-
+                    if (data) {
+                        alert(data);
+                        return draw_histogram(data);
+                    }
+                    alert("We cannot compute prediction");
+                    $(document).ready(function () {
+                       window.location.href = "index.html";
+                    });
+                    return "We cannot compute prediction";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -166,10 +191,15 @@ var asyncRequest;
                     url: "/tendency",
                     success: function(data)
                     {
-                    alert(data);
-
-                    return draw_histogram(data);
-
+                    if (data) {
+                        alert(data);
+                        return draw_histogram(data);
+                    }
+                    alert("We cannot compute prediction");
+                    $(document).ready(function () {
+                       window.location.href = "index.html";
+                    });
+                    return "We cannot compute prediction";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -187,10 +217,15 @@ var asyncRequest;
                     url: "/unix",
                     success: function(data)
                     {
-                    alert(data);
-
-                    return draw_histogram(data);
-
+                    if (data) {
+                        alert(data);
+                        return draw_histogram(data);
+                    }
+                    alert("We cannot compute prediction");
+                    $(document).ready(function () {
+                       window.location.href = "index.html";
+                    });
+                    return "We cannot compute prediction";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -208,10 +243,15 @@ var asyncRequest;
                     url: "/wma",
                     success: function(data)
                     {
-                    alert(data);
-
-                    return draw_histogram(data);
-
+                    if (data) {
+                        alert(data);
+                        return draw_histogram(data);
+                    }
+                    alert("We cannot compute prediction");
+                    $(document).ready(function () {
+                       window.location.href = "index.html";
+                    });
+                    return "We cannot compute prediction";
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                     alert(xhr.status);
@@ -321,6 +361,30 @@ function login(){
             }
     });
 }
+
+var asyncRequest;
+function trimitere() {
+    var file_data = $("#file_id").prop("files")[0];
+    alert(file_data);
+    var perioada = $("input#numberField").val();
+	var form_data = new FormData();
+    form_data.append("file", file_data);
+    form_data.append("perioada", perioada);
+    alert(form_data);
+	$.ajax({
+	    url: "/uploadingFile", // Url to which the request is send
+		type: "POST",             // Type of request to be send, called as method
+		data: form_data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+        processData: false,
+        contentType:false,
+		success: function (data)   // A function to be called if request succeeds
+		{
+		    alert("Am ajuns in success");
+		},
+		async: false
+});
+
+ }
 
 var asyncRequest;
 function trimitere() {

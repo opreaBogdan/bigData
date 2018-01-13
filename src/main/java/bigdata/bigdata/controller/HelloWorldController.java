@@ -32,12 +32,22 @@ class HelloController {
     UserEntity user;
 
     private List<Double> aux = Arrays.asList(1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.9);
-    private LinkedList<Double> values = new LinkedList<>(aux);
+    private LinkedList<Double> values = new LinkedList<>();
     private int predict_start = 5;
     private int prediction_time = 5;
 
+    public boolean sanityCheck() {
+        if (values.isEmpty())
+            return false;
+        return true;
+    }
+
     @RequestMapping("/random")
     public LinkedList<Double> randomPrediction() {
+        if(!sanityCheck()) {
+            return null;
+        }
+
         LinkedList<Double>  result = new LinkedList<>();
         LinkedList<Double>  to_predict = new LinkedList<>();
         int real_size = values.size();
@@ -71,6 +81,10 @@ class HelloController {
 
     @RequestMapping("/homeostatic")
     public LinkedList<Double> homeostaticPrediction() {
+        if(!sanityCheck()) {
+            return null;
+        }
+
         LinkedList<Double>  result = new LinkedList<>();
         LinkedList<Double>  to_predict = new LinkedList<>();
         int real_size = values.size();
@@ -104,6 +118,10 @@ class HelloController {
 
     @RequestMapping("/backpropagation")
     public LinkedList backpropagationPrediction() {
+        if(!sanityCheck()) {
+            return null;
+        }
+
         BackPropagation.init();
 
         LinkedList<Double>  result = new LinkedList<>();
@@ -139,6 +157,9 @@ class HelloController {
 
     @RequestMapping("/cascor")
     public LinkedList<Double> cascorPrediction() {
+        if(!sanityCheck()) {
+            return null;
+        }
 
         LinkedList<Double>  result = new LinkedList<>();
         LinkedList<Double>  to_predict = new LinkedList<>();
@@ -175,6 +196,10 @@ class HelloController {
 
     @RequestMapping("/ema")
     public LinkedList<Double> emaPrediction() {
+        if(!sanityCheck()) {
+            return null;
+        }
+
         LinkedList<Double>  result = new LinkedList<>();
         LinkedList<Double>  to_predict = new LinkedList<>();
         int real_size = values.size();
@@ -208,6 +233,10 @@ class HelloController {
 
     @RequestMapping("/tendency")
     public LinkedList<Double> tendencyPrediction() {
+        if(!sanityCheck()) {
+            return null;
+        }
+
         LinkedList<Double>  result = new LinkedList<>();
         LinkedList<Double>  to_predict = new LinkedList<>();
         int real_size = values.size();
@@ -241,6 +270,10 @@ class HelloController {
 
     @RequestMapping("/unix")
     public LinkedList<Double> unixPrediction() {
+        if(!sanityCheck()) {
+            return null;
+        }
+
         LinkedList<Double>  result = new LinkedList<>();
         LinkedList<Double>  to_predict = new LinkedList<>();
         int real_size = values.size();
@@ -274,6 +307,10 @@ class HelloController {
 
     @RequestMapping("/wma")
     public LinkedList<Double> wmaPrediction() {
+        if(!sanityCheck()) {
+            return null;
+        }
+
         LinkedList<Double>  result = new LinkedList<>();
         LinkedList<Double>  to_predict = new LinkedList<>();
         int real_size = values.size();
