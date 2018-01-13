@@ -41,22 +41,11 @@ public class Utils {
         return result;
     }
 
-    public static void writeResult(String token, BufferedReader content, TimeSeriesInputEntityRepository timeSeriesInputEntityRepository) {
-
-        String line;
-        String result = "";
-
-        try {
-            while ((line = content.readLine()) != null) {
-                result = line + "\n";
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void writeResult(String token, String content, TimeSeriesInputEntityRepository timeSeriesInputEntityRepository) {
 
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Constants.serverBasePath + Constants.delimiter + token));
-            bw.write(result);
+            bw.write(content);
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -172,19 +161,23 @@ public class Utils {
         return suma / valori.length;
     }
 
-    public static LinkedList<Double> parseInputFile(BufferedReader content) {
+    public static LinkedList<Double> parseInputFile(BufferedReader content, String token, TimeSeriesInputEntityRepository timeSeriesInputEntityRepository) {
         LinkedList<Double> result = new LinkedList<>();
 
         String line;
+        String toSave = "";
 
         try {
             while ((line = content.readLine()) != null) {
+                toSave = toSave + line + "\n";
                 double value = Double.parseDouble(line);
                 result.add(value);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Utils.writeResult(token, toSave, timeSeriesInputEntityRepository);
 
         return result;
     }

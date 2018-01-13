@@ -33,7 +33,7 @@ class HelloController {
     private int prediction_time = 5;
 
     public boolean sanityCheck() {
-        if (values.isEmpty())
+        if (values == null || values.isEmpty())
             return false;
         return true;
     }
@@ -406,9 +406,8 @@ class HelloController {
         }
         prediction_time = response.getPerioada();
         BufferedReader readFile = new BufferedReader(new InputStreamReader(response.getFile().getInputStream(), "UTF-8"));
-        values = Utils.parseInputFile(readFile);
         String token = Utils.generateToken(timeSeriesInputEntityRepository);
-        Utils.writeResult(token, readFile, timeSeriesInputEntityRepository);
+        values = Utils.parseInputFile(readFile, token, timeSeriesInputEntityRepository);
         return token;
     }
 
