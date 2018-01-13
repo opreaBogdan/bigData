@@ -28,7 +28,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
@@ -61,13 +61,6 @@
     </div>
 </nav>
 
-
-
-
-
-
-<body>
-
 <main role="main" class="container">
 
     <blockquote class="blockquote text-center align-middle">
@@ -79,8 +72,28 @@
             <button type="button" onclick="location.href='register.html';" class="btn btn-outline-primary btn-lg">Register</button>
         </div>
     </blockquote>
-
-
+    <div class="container">
+<div class="col-md-8 col-md-offset-2">
+    <h3>File Input </h3>
+<form enctype="multipart/form-data">
+	<!-- COMPONENT START -->
+	<div class="form-group">
+        <label>Choose file
+            <input type="file" id="file_id" name="file"  required />
+        </label>
+	</div>
+	<!-- COMPONENT END -->
+    <h3> Period </h3>
+    <div class="form-group">
+        <input type="number" class="form-control" id="numberField" placeholder="Number">
+    </div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary pull-right" onclick="trimitere()">Submit</button>
+		<button type="reset" class="btn btn-danger">Reset</button>
+	</div>
+</form>
+</div>
+</div>
 
 </main><!-- /.container -->
 
@@ -94,5 +107,37 @@
 <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="js/bootstrap.js"></script>
 <script src="my_js.js"></script>
+<script>
+    function bs_input_file() {
+	$(".input-file").before(
+		function() {
+			if ( ! $(this).prev().hasClass('input-ghost') ) {
+				var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+				element.attr("name",$(this).attr("name"));
+				element.change(function(){
+					element.next(element).find('input').val((element.val()).split('\\').pop());
+				});
+				$(this).find("button.btn-choose").click(function(){
+					element.click();
+				});
+				$(this).find("button.btn-reset").click(function(){
+					element.val(null);
+					$(this).parents(".input-file").find('input').val('');
+				});
+				$(this).find('input').css("cursor","pointer");
+				$(this).find('input').mousedown(function() {
+					$(this).parents('.input-file').prev().click();
+					return false;
+				});
+				return element;
+			}
+		}
+	);
+}
+$(function() {
+	bs_input_file();
+});
+    </script>
+
 </body>
 </html>

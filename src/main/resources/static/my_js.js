@@ -7,7 +7,7 @@ function registerShowPassword() {
     }
 }
 
- var asyncRequest;
+ var asyncRequest
        function startRandomPrediction(){
 
                     $.ajax({
@@ -315,3 +315,32 @@ function login(){
             }
     });
 }
+
+var asyncRequest;
+function trimitere() {
+
+							var file_data = $("#file_id").prop("files")[0];
+                            alert(file_data);
+                            var perioada = $("input#numberField").val();
+
+							var form_data = new FormData();
+
+							form_data.append("file", file_data);
+
+							form_data.append("perioada", perioada);
+
+                            alert(form_data);
+							$.ajax({
+								url: "/uploadingFile", // Url to which the request is send
+								type: "POST",             // Type of request to be send, called as method
+								data: form_data, // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+                                processData: false,
+                                contentType:false,
+								success: function (data)   // A function to be called if request succeeds
+								{
+									alert("Am ajuns in success");
+								},
+								async: false
+							});
+
+ }

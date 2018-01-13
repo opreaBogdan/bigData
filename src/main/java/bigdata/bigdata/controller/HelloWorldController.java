@@ -8,7 +8,10 @@ import bigdata.repositories.UserEntityRepository;
 import bigdata.utils.Constants;
 import bigdata.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.*;
 import java.util.Arrays;
@@ -16,7 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 class HelloController {
@@ -358,6 +362,18 @@ class HelloController {
         //perform DB operations
         timeSeriesInputEntityRepository.updateAlgorithm(description, token);
         return "Updated";
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/uploadingFile", method = RequestMethod.POST ,consumes = {"application/x-www-form-urlencoded","multipart/form-data"})
+    public String uploadFile(@ModelAttribute Receive response) throws Exception {
+        if(response.getFile() == null) {
+            throw new IllegalArgumentException("File not found");
+        }
+        BufferedReader readFIle = new BufferedReader(new InputStreamReader(response.getFile().getInputStream(), "UTF-8"));
+
+        return "File has been uploaded";
     }
 
     @ResponseBody
