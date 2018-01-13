@@ -213,6 +213,21 @@ var asyncRequest;
 }
 
 
+var asyncRequest;
+       function SaveAs(){
+
+                    var e = document.createElement('script');
+
+                    if (window.location.protocol === 'https:') {
+                        e.setAttribute('src', 'https://raw.github.com/NYTimes/svg-crowbar/gh-pages/svg-crowbar.js');
+                    } else {
+                        e.setAttribute('src', 'http://nytimes.github.com/svg-crowbar/svg-crowbar.js');
+                    }
+
+                    e.setAttribute('class', 'svg-crowbar');
+                    document.body.appendChild(e);
+}
+
 function draw_histogram (data)
 {
 

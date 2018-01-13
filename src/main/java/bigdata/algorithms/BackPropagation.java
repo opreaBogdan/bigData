@@ -5,7 +5,6 @@ import bigdata.utils.Constants;
 
 import java.util.LinkedList;
 import java.util.Random;
-
 /*
  * myBp cross=10.623081537164518 nmse=0.29331515309473927
  * pentru test_rav.txt
